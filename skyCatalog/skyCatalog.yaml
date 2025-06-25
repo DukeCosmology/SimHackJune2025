@@ -63,13 +63,6 @@ object_types:
     sed_model: tophat
     spatial_model: sersic2D
     subtype: disk
-  gaia_star:
-    area_partition: None
-    butler_parameters:
-      collections: HSC/defaults
-      dstype: gaia_dr2_20200414
-    data_file_type: butler_refcat
-    sed_method: use_lut
   galaxy:
     area_partition:
       nside: 32
