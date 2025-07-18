@@ -63,6 +63,12 @@ object_types:
     sed_model: tophat
     spatial_model: sersic2D
     subtype: disk
+  gaia_star:
+    data_file_type: fits
+    data_dir: gaia_dr2_20200414
+    basename_template: (?P<htm>\d+).fits
+    area_partition:
+      level: 7
   galaxy:
     area_partition:
       nside: 32
