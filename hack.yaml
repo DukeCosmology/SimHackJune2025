@@ -126,7 +126,7 @@ input:
         edge_pix: 512
         mjd: { type: ObSeqData, field: mjd }
         exptime: { type: ObSeqData, field: exptime }          
-        obj_types: ['diffsky_galaxy','star','snana']
+        obj_types: ['diffsky_galaxy','star','snana','gaia_star']
 
 output:
 
