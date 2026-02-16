@@ -88,7 +88,7 @@ image:
     read_noise: False
     sky_subtract: False
 
-    # nobjects: 500
+    nobjects: 10
 
 stamp:
     type: Roman_stamp
@@ -134,7 +134,7 @@ output:
     dir: output/RomanWAS_new/images/truth
     file_name:
         type: FormattedStr
-        format: "Roman_WAS_truth_%s_%i_%i.fits.gz"
+        format: "Roman_WAS_truth_%s_%i_%i.fits"
         items:
             - { type: ObSeqData, field: filter }
             - { type: ObSeqData, field: visit }
