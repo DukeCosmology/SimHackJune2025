@@ -93,8 +93,6 @@ image:
 
     # nobjects: 500
 
-    # nproc: -1
-
 stamp:
     type: Roman_stamp
     world_pos:
