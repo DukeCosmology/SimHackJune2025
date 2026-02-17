@@ -88,7 +88,7 @@ image:
     read_noise: False
     sky_subtract: False
 
-    nobjects: 10
+    # nobjects: 10
 
 stamp:
     type: Roman_stamp
@@ -125,7 +125,7 @@ input:
         file_name: skyCatalog//skyCatalog.yaml 
         edge_pix: 512
         mjd: { type: ObSeqData, field: mjd }
-        exptime: { type: ObSeqData, field: exptime }          
+        exptime: { type: ObSeqData, field: exptime }
         obj_types: ['diffsky_galaxy','star','snana','gaia_star']
 
 output:
