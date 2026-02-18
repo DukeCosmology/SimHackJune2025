@@ -76,6 +76,7 @@ image:
     # chromatic photon shooting is only slightly slower than achromatic, so the difference
     # is even more pronounced in this case.
     draw_method: 'phot'
+    use_fft_bright: True
 
     # These are all by default turned on, but you can turn any of them off if desired:
     ignore_noise: True
