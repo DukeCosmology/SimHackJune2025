@@ -1,7 +1,7 @@
 # Default settings for roman simulation
-# Includes creation of noisless oversampled images (including PSF)
-#  -- processing of other detector and instrument effects are still handled in the
-#     python postprocessing layer to enable things not currently in galsim.roman
+# Includes creation of noiseless oversampled images (including PSF)
+#  - processing of other detector and instrument effects are still handled in the
+#    python postprocessing layer to enable things not currently in galsim.roman
 
 modules:
 
@@ -73,7 +73,7 @@ image:
     # are fairly faint.  The cross-over point for achromatic objects is generally of order
     # flux=1.e6 or so (depending on the profile).  Most of our objects here are much fainter than
     # that.  The fft rendering for chromatic is a factor of 10 or so slower still, whereas
-    # chromatic photon shooting is only slighly slower than achromatic, so the difference
+    # chromatic photon shooting is only slightly slower than achromatic, so the difference
     # is even more pronounced in this case.
     # draw_method: "auto"
     draw_method: 'phot'
@@ -91,8 +91,6 @@ image:
         read_noise: True
         sky_subtract: False
 
-    # nobjects: 500
-
 stamp:
     type: Roman_stamp
     world_pos:
@@ -100,8 +98,7 @@ stamp:
     exptime: { type: ObSeqData, field: exptime }
     skip_failures: True
     photon_ops:
-        -
-            type: ChargeDiff
+        - { type: ChargeDiff }
 
 # psf:
 #     type: roman_psf
@@ -118,17 +115,17 @@ gal:
 
 input:
     obseq_data:
-        file_name: Roman_WAS_obseq_11_1_23.fits
+        file_name: "Roman_WAS_obseq_11_1_23.fits"
         visit: 12909
         SCA: '@image.SCA'
     roman_psf:
         SCA: '@image.SCA'
         n_waves: 5
     sky_catalog:
-        file_name: skyCatalog//skyCatalog.yaml 
+        file_name: "skyCatalog/skyCatalog.yaml"
         edge_pix: 512
         mjd: { type: ObSeqData, field: mjd }
-        exptime: { type: ObSeqData, field: exptime }          
+        exptime: { type: ObSeqData, field: exptime }
         obj_types: ['diffsky_galaxy','star','snana','gaia_star']
 
 output:
