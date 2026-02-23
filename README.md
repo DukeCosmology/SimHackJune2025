@@ -1,10 +1,11 @@
-# SimHackJune2025
+# roman_imsim_testdata
 
 Repo of small data to enable local development during the June 2025 hackathon at Duke University.
+These data are used for testing [roman_imsim](https://github.com/DukeCosmology/roman_imsim).
 
 ## Cloning this repository
 
-Before cloning this repository, ou will first need to install Git LFS (Large File System) if not already installed.
+Before cloning this repository, you will first need to install Git LFS (Large File System) if not already installed.
 Try running
 ```bash
 git lfs install
