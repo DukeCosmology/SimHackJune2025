@@ -81,6 +81,7 @@ image:
     # noise:
     #     # These are all by default turned on, but you can turn any of them off if desired:
     #     type: RomanNoise
+    #     mjd: { type: ObSeqData, field: mjd }
     #     stray_light: True
     #     thermal_background: True
     #     reciprocity_failure: True
