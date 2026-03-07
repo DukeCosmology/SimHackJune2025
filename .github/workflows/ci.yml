@@ -1,0 +1,51 @@
+name: Make Reference Image
+
+on:
+  workflow_dispatch: null
+
+permissions:
+  content: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.14]
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # lfs: true
+          ref: ${{ github.head_ref }}
+
+      - name: Configure Git and pull from LFS
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config lfs.fetchexclude "reference"
+          git lfs pull
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install roman_imsim
+        run: pip install git+https://github.com/DukeCosmology/roman_imsim.git
+
+      - name: Run GalSim
+        run: |
+          galsim hack.yaml output.dir=reference/RomanWAS_new/images/truth output.truth.dir=reference/RomanWAS_new/truth
+
+      # https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
+      - name: Commit and push output
+        run: |
+          if git diff --exit-code; then
+              echo "reference/ is unchanged; no action needed"
+          else
+              echo "reference/ is changed; pushing updates"
+              git add reference
+              git commit -m "Update reference image"
+              git push
+          fi
