@@ -6,6 +6,9 @@ on:
 permissions:
   contents: write
 
+env:
+ BRANCH_NAME: ${{ github.ref_name }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +20,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           # lfs: true
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref || github.ref_name }}
 
       - name: Configure Git and pull from LFS
         run: |
@@ -29,7 +32,7 @@ jobs:
       - name: Install roman_imsim
         run: |
           python -m pip install --upgrade pip
-          pip install git+https://github.com/DukeCosmology/roman_imsim.git
+          pip install git+https://github.com/DukeCosmology/roman_imsim.git@${BRANCH_NAME}
 
       - name: Run GalSim
         run: |
