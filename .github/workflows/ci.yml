@@ -46,13 +46,19 @@ jobs:
               mv -v output/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz reference/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz
           fi
 
-          if diff output/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt reference/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt); then
+          if diff output/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt reference/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt; then
               echo "reference table is unchanged"
           else
               echo "reference table is changed"
               mv -v output/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt reference/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt
           fi
 
-          git add reference
-          git commit -m "Update reference"
-          git push
+          if git diff --exit-code; then
+              echo "reference/ is unchanged; no action needed"
+          else
+              echo "reference/ is changed; pushing updates"
+              git add reference
+              git commit -m "Update reference"
+              git push
+          fi
+
