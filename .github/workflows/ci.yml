@@ -4,7 +4,10 @@ on:
   workflow_dispatch: null
 
 permissions:
-  content: write
+  contents: write
+
+env:
+ BRANCH_NAME: ${{ github.ref_name }}
 
 jobs:
   build:
@@ -16,36 +19,46 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          # lfs: true
-          ref: ${{ github.head_ref }}
+          lfs: true
+          ref: ${{ github.ref || github.ref_name }}
 
-      - name: Configure Git and pull from LFS
+      # https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
+      - name: Configure Git for pushing from actions
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config lfs.fetchexclude "reference"
-          git lfs pull
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
 
       - name: Install roman_imsim
-        run: pip install git+https://github.com/DukeCosmology/roman_imsim.git
+        run: |
+          python -m pip install --upgrade pip
+          pip install git+https://github.com/DukeCosmology/roman_imsim.git@${BRANCH_NAME}
 
       - name: Run GalSim
         run: |
-          galsim hack.yaml output.dir=reference/RomanWAS_new/images/truth output.truth.dir=reference/RomanWAS_new/truth
+          galsim hack.yaml
 
-      # https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
       - name: Commit and push output
         run: |
+          if zdiff output/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz reference/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz; then
+              echo "reference image is unchanged"
+          else
+              echo "reference image is changed"
+              mv -v output/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz reference/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz
+          fi
+
+          if diff output/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt reference/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt; then
+              echo "reference table is unchanged"
+          else
+              echo "reference table is changed"
+              mv -v output/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt reference/RomanWAS_new/truth/Roman_WAS_index_J129_12909_4.txt
+          fi
+
           if git diff --exit-code; then
               echo "reference/ is unchanged; no action needed"
           else
               echo "reference/ is changed; pushing updates"
               git add reference
-              git commit -m "Update reference image"
+              git commit -m "Update reference"
               git push
           fi
+
