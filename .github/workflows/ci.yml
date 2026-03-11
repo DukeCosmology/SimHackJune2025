@@ -39,7 +39,7 @@ jobs:
 
       - name: Commit and push output
         run: |
-          if fitsdiff output/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz reference/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz; then
+          if fitsdiff --ignore-keywords VERSION output/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz reference/RomanWAS_new/images/truth/Roman_WAS_truth_J129_12909_4.fits.gz; then
               echo "reference image is unchanged"
           else
               echo "reference image is changed"
